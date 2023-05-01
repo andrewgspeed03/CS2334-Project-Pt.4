@@ -14,14 +14,14 @@ import java.awt.event.*;
 public class Driver {
 	
 	// Declare class data
-
+	private static JFrame proFrame = null;
+	private static JPanel topPanel = null;
+	private static JButton play = null;
+	private static JCheckBox enStop = null;
+	private static JComboBox<String> aniTime = null;
+	private static GridBagConstraints layCont = null;
+	
     public static void main(String[] args) throws FileNotFoundException, IOException {
-    	JFrame proFrame = null;
-    	JPanel topPanel = null;
-    	JButton play = null;
-    	JCheckBox enStop = null;
-    	JComboBox<String> aniTime = null;
-    	GridBagConstraints layCont = null;
 
     	// Read file and call stop detection
     	TripPoint.readFile("triplog.csv");
@@ -42,9 +42,8 @@ public class Driver {
         enStop = new JCheckBox("Include Stops");
 
         // ComboBox to pick animation time
-        String[] Times = {"15", "30", "60", "90"};
+        String[] Times = {"Animation Time","15", "30", "60", "90"};
         aniTime = new JComboBox<String>(Times);
-        aniTime.insertItemAt("Animation Time", 0);
         aniTime.setSelectedItem(0);
         
     	aniTime.setEditable(false);
@@ -73,7 +72,13 @@ public class Driver {
         aniTime.addItemListener(new ItemListener() {
         	@Override
         	public void itemStateChanged(ItemEvent e) {
-        		
+        		if(e.getStateChange() == ItemEvent.SELECTED) {
+        			String sel = (String) aniTime.getSelectedItem();
+        			if(aniTime.getSelectedIndex() != 0) {
+        				int speed = Integer.parseInt(sel);
+        				// divide Animation Time by speed
+        			}        			
+        		}
         	}
         });
 
