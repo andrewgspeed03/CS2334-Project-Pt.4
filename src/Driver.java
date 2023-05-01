@@ -24,7 +24,7 @@ public class Driver {
     	JPanel topPanel = null;
     	JButton play = null;
     	JCheckBox enStop = null;
-    	JComboBox aniTime = null;
+    	JComboBox<String> aniTime = null;
     	GridBagConstraints layCont = null;
 
     	// Read file and call stop detection
@@ -42,10 +42,14 @@ public class Driver {
     	
         // CheckBox to enable/disable stops
         enStop = new JCheckBox("Include Stops");
-    	
+
         // ComboBox to pick animation time
-        Integer[] Times = {15, 30, 60, 90};
-        aniTime = new JComboBox(Times);
+        String[] Times = {"15", "30", "60", "90"};
+        aniTime = new JComboBox<String>(Times);
+        aniTime.insertItemAt("Animation Time", 0);
+        aniTime.setSelectedItem(0);
+        
+    	aniTime.setEditable(false);
     	
         // Add all to top panel
         
@@ -54,7 +58,6 @@ public class Driver {
         
         
         // Add listeners for GUI components
-        play.addActionListener(play);
 
         // Set the map center and zoom level
         
