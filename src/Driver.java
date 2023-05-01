@@ -2,6 +2,8 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import javax.swing.*;
 import java.awt.*;
+import java.util.*;
+import java.awt.event.*;
 /**
  * 
  * @author good0161
@@ -24,6 +26,7 @@ public class Driver {
     	// Read file and call stop detection
     	TripPoint.readFile("triplog.csv");
     	TripPoint.h2StopDetection();
+    	ArrayList<TripPoint> Trip = TripPoint.getTrip();
     	
     	// Set up frame, include your name in the title
     	proFrame = new JFrame("Project 5 - Andrew Goodspeed");
@@ -55,6 +58,24 @@ public class Driver {
         
         
         // Add listeners for GUI components
+        play.addActionListener(new ActionListener() {
+        	@Override
+        	public void actionPerformed(ActionEvent e) {
+        		
+        	}
+        });
+        enStop.addActionListener(new ActionListener() {
+        	@Override
+        	public void actionPerformed(ActionEvent e) {
+        		
+        	}
+        });
+        aniTime.addActionListener(new ActionListener() {
+        	@Override
+        	public void actionPerformed(ActionEvent e) {
+        		
+        	}
+        });
 
         // Set the map center and zoom level
         
