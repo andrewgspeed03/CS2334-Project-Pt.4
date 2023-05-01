@@ -70,9 +70,9 @@ public class Driver {
         		
         	}
         });
-        aniTime.addActionListener(new ActionListener() {
+        aniTime.addItemListener(new ItemListener() {
         	@Override
-        	public void actionPerformed(ActionEvent e) {
+        	public void itemStateChanged(ItemEvent e) {
         		
         	}
         });
