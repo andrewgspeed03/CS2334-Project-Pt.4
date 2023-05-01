@@ -1,13 +1,7 @@
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.JButton;
-import javax.swing.JCheckBox;
-import javax.swing.JComboBox;
-import java.awt.GridBagConstraints;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
+import javax.swing.*;
+import java.awt.*;
 /**
  * 
  * @author good0161
@@ -33,6 +27,7 @@ public class Driver {
     	
     	// Set up frame, include your name in the title
     	proFrame = new JFrame("Project 5 - Andrew Goodspeed");
+        proFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         
         // Set up Panel for input selections
         topPanel = new JPanel();
@@ -52,7 +47,9 @@ public class Driver {
     	aniTime.setEditable(false);
     	
         // Add all to top panel
-        
+        topPanel.add(play);
+        topPanel.add(enStop);
+        topPanel.add(aniTime);
         
         // Set up mapViewer
         
@@ -61,10 +58,6 @@ public class Driver {
 
         // Set the map center and zoom level
         
-    }
-    @Override
-    public void actionPerformed(ActionEvent event) {
-    	
     }
     
     // Animate the trip based on selections from the GUI components
