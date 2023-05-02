@@ -94,6 +94,8 @@ public class Driver {
         play.addActionListener(new ActionListener() {
         	@Override
         	public void actionPerformed(ActionEvent e) {
+        		if(timer != null) 
+        			timer.stop();
         		Play(Trip);
         	}
         });
@@ -123,7 +125,7 @@ public class Driver {
 
 
     private static void Play(ArrayList<TripPoint> Trip){
-
+    	
     	tripMap.removeAllMapPolygons();
     	List<MapMarkerDot> points = new ArrayList<MapMarkerDot>();
     	
@@ -131,19 +133,25 @@ public class Driver {
     		points.add(new MapMarkerDot(x.getLat(),x.getLon()));	
     	}
     	int duration = (Trip.size() / speed); 
+    	final int[] current = {0};
+    	
+    	
     	timer = new Timer(duration, new ActionListener() {
     			@Override
     			public void actionPerformed(ActionEvent e) {
-    				for(int i = 0; i < points.size()-1; i++) {
-    					MapMarkerDot from = points.get(i);
-    					MapMarkerDot to = points.get(i + 1);
-    		    		MapPolygon line = new MapPolygonImpl(from,from,to);
-    		    		tripMap.addMapPolygon(line);
-    		    		
-    		    	}
+    				if(current[0] != points.size()-1) {
+	    				MapMarkerDot from = points.get(current[0]);
+	    				MapMarkerDot to = points.get(current[0] + 1);
+	    		    	MapPolygon line = new MapPolygonImpl(from,to,to);
+	    		    
+	    		    	tripMap.addMapPolygon(line);
+    				}
+    				else
+    					timer.stop();
+    				current[0]++;
     			}
     	});
-    	
+    	timer.start();
     }
     
     
