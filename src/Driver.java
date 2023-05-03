@@ -31,7 +31,7 @@ import org.openstreetmap.gui.jmapviewer.tilesources.OsmTileSource;
  * 
  * @author good0161
  * @version 5.0.1
- * Designs and creates an executable jar file display the entire trip on a tripMap
+ * Designs and creates an executable jar file to display the entire trip on a tripMap
  */
 
 public class Driver {
@@ -42,7 +42,6 @@ public class Driver {
 	private static JButton play;
 	private static JCheckBox enStop;
 	private static JComboBox<String> aniTime;
-	//private static GridBagConstraints layCont;
 	private static JMapViewer tripMap;
 	private static int speed = 15;
 	private static boolean showStops = false;
@@ -58,7 +57,8 @@ public class Driver {
     	numStops = TripPoint.h2StopDetection();
     	ArrayList<TripPoint> trip = TripPoint.getTrip();
     	ArrayList<TripPoint> stops = new ArrayList<>(trip);
-    	stops.removeAll(TripPoint.getMovingTrip());
+    	ArrayList<TripPoint> movingTrip = TripPoint.getMovingTrip();
+    	stops.removeAll(movingTrip);
     	
     	// Set up frame, include your name in the title
     	proFrame = new JFrame("Project 5 - Andrew Goodspeed");
@@ -100,17 +100,9 @@ public class Driver {
         	public void actionPerformed(ActionEvent e) {
         		if(timer != null) 
         			timer.stop();
-        		try {
-					Play(trip,stops);
-				} catch (FileNotFoundException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				} catch (IOException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-        		
+				Play(trip,stops, movingTrip);
         	}
+
         });
         enStop.addActionListener(new ActionListener() {
         	@Override
@@ -141,7 +133,7 @@ public class Driver {
     // Animate the trip based on selections from the GUI components
 
 
-    private static void Play(ArrayList<TripPoint> Trip, ArrayList<TripPoint> Stops) throws FileNotFoundException, IOException{
+    private static void Play(ArrayList<TripPoint> Trip, ArrayList<TripPoint> Stops, ArrayList<TripPoint> MovingTrip){
     	
     	tripMap.removeAllMapMarkers();
     	tripMap.removeAllMapPolygons();
@@ -149,20 +141,27 @@ public class Driver {
     	List<Coordinate> line = new ArrayList<Coordinate>();
     	List<Coordinate> dot = new ArrayList<Coordinate>();
     	
-
     	Graphics g = (Graphics2D) proFrame.getGraphics();
     	g.setColor(Color.RED);
     	int period = 1000;
     	
-    	for(TripPoint x: Trip) 
-    		line.add(new Coordinate(x.getLat(),x.getLon()));	
+    		
     	for(TripPoint y: Stops)
     		dot.add(new Coordinate(y.getLat(),y.getLon()));
     	
     	final int[] current = {0};
     	final int[] stopCount = {0};
     	final MapMarker[] prev = new MapMarker[1];
-    	period =  (speed * 1000) / line.size();
+    	
+    	if(showStops) {
+    		for(TripPoint x: Trip) 
+        		line.add(new Coordinate(x.getLat(),x.getLon()));
+    		period = (speed * 1000) / (Trip.size());
+    	}
+    	else
+    		for(TripPoint x: MovingTrip) 
+        		line.add(new Coordinate(x.getLat(),x.getLon()));
+    		period =  (speed * 1000) / (line.size());
 
     	timer = new Timer(period, new ActionListener() {
     			@Override
